@@ -1,6 +1,6 @@
 {
   "name": "autocomplete-react-minimalist",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Autocomplete component for react",
   "main": "./dist/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/matiasb7/autocomplate-package.git"
   },
   "keywords": [
-    "autocomplete"
+    "autocomplete", "react", "minimalist", "component", "input"
   ],
   "author": "Matias Berger",
   "license": "ISC",
