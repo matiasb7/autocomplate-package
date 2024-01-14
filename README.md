@@ -16,6 +16,33 @@ This `AutoComplete` React component enhances user input experience by providing 
 npm install autocomplete-react-minimalist
 ```
 
+## Usage
+```
+import AutoComplete from "autcomplete-react";
+
+const options = [
+  { label: "Afghanistan", key: "AF" },
+  { label: "Åland Islands", key: "AX" },
+  { label: "Albania", key: "AL" },
+  { label: "Algeria", key: "DZ" },
+  { label: "American Samoa", key: "AS" },
+  { label: "Andorra", key: "AD" },
+];
+
+const MyComponent = () => {
+  return (
+    <AutoComplete
+      inputKey="my-autocomplete"
+      placeholder="Type to search..."
+      listToFilter={options}
+      modifierClass=""
+      isRestrictedToOption={true}
+      onChange={(value) => console.log(value)}
+    />
+  );
+};
+```
+
 ## Props
 - 🆔 `inputKey` (string): Unique key for the input element.
 - 💬 `placeholder` (string): Placeholder text for the input field.
@@ -26,5 +53,5 @@ npm install autocomplete-react-minimalist
 - 🔄 `onChange` (function): Callback function for input change.
 
 
-## Props
-Use BEM conventions for custom styling. We're working to support tailwind.
+## Styles
+Use BEM conventions for custom styling. We're working to support tailwind and Typescript.
