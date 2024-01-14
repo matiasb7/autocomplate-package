@@ -18,7 +18,7 @@ npm install autocomplete-react-minimalist
 
 ## Usage
 ```
-import AutoComplete from "autcomplete-react";
+import AutoComplete from "autcomplete-react-minimalist";
 
 const options = [
   { label: "Afghanistan", key: "AF" },

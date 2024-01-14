@@ -1,19 +1,12 @@
-import AutoComplete from "autcomplete-react";
+import AutoComplete from "autcomplete-react-minimalist";
+import countries from "./countries.json"
 
-const options = [
-  { label: "Afghanistan", key: "AF" },
-  { label: "Åland Islands", key: "AX" },
-  { label: "Albania", key: "AL" },
-  { label: "Algeria", key: "DZ" },
-  { label: "American Samoa", key: "AS" },
-  { label: "Andorra", key: "AD" },
-];
 const MyComponent = () => {
   return (
     <AutoComplete
       inputKey="my-autocomplete"
       placeholder="Type to search..."
-      listToFilter={options}
+      listToFilter={countries}
       modifierClass=""
       isRestrictedToOption={true}
       onChange={(value) => console.log(value)}
