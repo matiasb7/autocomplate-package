@@ -18,7 +18,7 @@ npm install autocomplete-react-minimalist
 
 ## Usage
 ```
-import AutoComplete from "autcomplete-react-minimalist";
+import Autocomplete from "autocomplete-react-minimalist";
 
 const options = [
   { label: "Afghanistan", key: "AF" },
@@ -31,7 +31,7 @@ const options = [
 
 const MyComponent = () => {
   return (
-    <AutoComplete
+    <Autocomplete
       inputKey="my-autocomplete"
       placeholder="Type to search..."
       listToFilter={options}

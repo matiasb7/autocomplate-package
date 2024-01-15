@@ -1,9 +1,9 @@
-import AutoComplete from "autcomplete-react-minimalist";
+import Autocomplete from "autocomplete-react-minimalist";
 import countries from "./countries.json"
 
 const MyComponent = () => {
   return (
-    <AutoComplete
+    <Autocomplete
       inputKey="my-autocomplete"
       placeholder="Type to search..."
       listToFilter={countries}
