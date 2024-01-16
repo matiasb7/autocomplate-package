@@ -55,3 +55,6 @@ const MyComponent = () => {
 
 ## Styles
 Use BEM conventions for custom styling. We're working to support tailwind and Typescript.
+
+## Contributors
+Feel free to make your PR if you want to collaborate.
