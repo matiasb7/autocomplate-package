@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import { useCloseDropdown } from "./hooks/useCloseDropdown.js";
 import "./styles/styles.css";
+import {KEYS} from "./constants.js";
+import useAccessibleDropdown from "./hooks/useAccessibleDropdown.js";
 const Autocomplete = ({
   inputKey,
   placeholder,
@@ -13,6 +15,14 @@ const Autocomplete = ({
   const [value, setValue] = useState(initValue || "");
   const [items, setItems] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleSelectItem = (value) => {
+    setValue(value)
+    setShowDropdown(false)
+  }
+
+  const { handleKeyDown, dropdownContainerRef, focusedOptionIndex} = useAccessibleDropdown({showDropdown, handleSelectItem, items})
+
   const { dropdownRef } = useCloseDropdown(() => {
     setShowDropdown(false);
 
@@ -39,15 +49,12 @@ const Autocomplete = ({
     if (onChange) onChange(value);
   }, [value]);
 
-  const handleOptionClick = useCallback((e) => {
-    setValue(e.target.innerText);
-    setShowDropdown(false);
-  }, []);
+  const handleOptionClick = (e) => handleSelectItem(e.target.innerText);
 
-  const handleFocus = useCallback(() => {
+  const handleFocus = () => {
     if (items.length === 0) setItems(listToFilter);
     setShowDropdown(true);
-  }, []);
+  }
 
   return (
     <div
@@ -60,7 +67,9 @@ const Autocomplete = ({
         Start typing to see all the related options.
       </label>
       <input
+        onKeyDown={handleKeyDown}
         onFocus={handleFocus}
+        onBlur={() => setShowDropdown(false)}
         id={inputKey}
         type="text"
         className={`autocomplete__input ${!value ? "--empty" : ""}`}
@@ -74,14 +83,17 @@ const Autocomplete = ({
           className={`autocomplete__search ${
             showDropdown ? "--show" : "--hide"
           }`}
+          ref={dropdownContainerRef}
         >
-          {items.map((item) => {
+          {items.map((item,index) => {
             return (
               <li
-                role="button"
+                role="option"
                 onClick={handleOptionClick}
                 key={item.key}
-                className="autocomplete__search-item"
+                aria-selected={focusedOptionIndex === index}
+                className={`autocomplete__search-item ${index === focusedOptionIndex ? 'focused' : ''}`}
+                tabIndex='0'
               >
                 {item.label}
               </li>
