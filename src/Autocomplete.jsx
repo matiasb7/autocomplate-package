@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useCloseDropdown } from "./hooks/useCloseDropdown.js";
-import "./styles/styles.css";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCloseDropdown } from './hooks/useCloseDropdown.js';
+import './styles/styles.css';
+import useAccessibleDropdown from './hooks/useAccessibleDropdown.js';
 const Autocomplete = ({
   inputKey,
   placeholder,
@@ -10,9 +11,21 @@ const Autocomplete = ({
   isRestrictedToOption,
   onChange,
 }) => {
-  const [value, setValue] = useState(initValue || "");
+  const [value, setValue] = useState(initValue || '');
   const [items, setItems] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleSelectItem = (value) => {
+    setValue(value);
+    setShowDropdown(false);
+  };
+
+  const { handleKeyDown, dropdownContainerRef, focusedOptionIndex } = useAccessibleDropdown({
+    showDropdown,
+    handleSelectItem,
+    items,
+  });
+
   const { dropdownRef } = useCloseDropdown(() => {
     setShowDropdown(false);
 
@@ -21,7 +34,7 @@ const Autocomplete = ({
       const isValueInList = listToFilter.some(
         (item) => item.label.toUpperCase() === value.toUpperCase(),
       );
-      if (!isValueInList) setValue("");
+      if (!isValueInList) setValue('');
     }
   });
 
@@ -39,49 +52,45 @@ const Autocomplete = ({
     if (onChange) onChange(value);
   }, [value]);
 
-  const handleOptionClick = useCallback((e) => {
-    setValue(e.target.innerText);
-    setShowDropdown(false);
-  }, []);
-
-  const handleFocus = useCallback(() => {
+  const handleOptionClick = (e) => handleSelectItem(e.target.innerText);
+  const handleFocus = () => {
     if (items.length === 0) setItems(listToFilter);
     setShowDropdown(true);
-  }, []);
+  };
 
   return (
     <div
-      className={`autocomplete ${
-        modifierClass ? `autocomplete--${modifierClass}` : ""
-      }`}
+      className={`autocomplete ${modifierClass ? `autocomplete--${modifierClass}` : ''}`}
       ref={dropdownRef}
     >
-      <label htmlFor={inputKey} className="visually-hidden">
+      <label htmlFor={inputKey} className='visually-hidden'>
         Start typing to see all the related options.
       </label>
       <input
+        onKeyDown={handleKeyDown}
         onFocus={handleFocus}
         id={inputKey}
-        type="text"
-        className={`autocomplete__input ${!value ? "--empty" : ""}`}
+        type='text'
+        className={`autocomplete__input ${!value ? '--empty' : ''}`}
         placeholder={placeholder}
         onChange={(e) => setValue(e.target.value)}
+        onBlur={() => setShowDropdown(false)}
         aria-expanded={showDropdown}
         value={value}
       />
-      <div className="autocomplete__container">
+      <div className='autocomplete__container'>
         <ul
-          className={`autocomplete__search ${
-            showDropdown ? "--show" : "--hide"
-          }`}
+          className={`autocomplete__search ${showDropdown ? '--show' : '--hide'}`}
+          ref={dropdownContainerRef}
         >
-          {items.map((item) => {
+          {items.map((item, index) => {
             return (
               <li
-                role="button"
-                onClick={handleOptionClick}
+                role='option'
+                onMouseDown={handleOptionClick}
                 key={item.key}
-                className="autocomplete__search-item"
+                aria-selected={focusedOptionIndex === index}
+                className={`autocomplete__search-item ${index === focusedOptionIndex ? 'focused' : ''}`}
               >
                 {item.label}
               </li>

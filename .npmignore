@@ -4,3 +4,5 @@ webpack.config.js
 .idea
 /web
 /sample
+/test
+.prettierrc
