@@ -1,11 +1,12 @@
 {
   "name": "autocomplete-react-minimalist",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Autocomplete component for react",
   "main": "./dist/index.js",
   "scripts": {
     "build": "rollup -c",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -16,7 +17,10 @@
     "react",
     "minimalist",
     "component",
-    "input"
+    "input",
+    "text",
+    "form",
+    "lightweight"
   ],
   "author": "Matias Berger",
   "license": "ISC",
@@ -26,6 +30,7 @@
   "type": "module",
   "homepage": "https://github.com/matiasb7/autocomplate-package#readme",
   "devDependencies": {
+    "@babel/preset-react": "^7.23.3",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",

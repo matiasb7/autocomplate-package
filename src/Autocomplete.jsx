@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCloseDropdown } from './hooks/useCloseDropdown.js';
 import './styles/styles.css';
 import useAccessibleDropdown from './hooks/useAccessibleDropdown.js';
