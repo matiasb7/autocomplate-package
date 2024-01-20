@@ -1,9 +1,9 @@
-import {useEffect, useRef, useState} from "react";
-import {KEYS} from "../constants.js";
+import { useEffect, useRef, useState } from 'react';
+import { KEYS } from '../constants.js';
 
-const useAccessibleDropdown = ({showDropdown, handleSelectItem, items}) => {
+const useAccessibleDropdown = ({ showDropdown, handleSelectItem, items }) => {
   const [focusedOptionIndex, setFocusedOptionIndex] = useState(0);
-  const dropdownContainerRef = useRef(null)
+  const dropdownContainerRef = useRef(null);
   const scrollToFocusedItem = (index) => {
     const dropdownEl = dropdownContainerRef.current;
     const focusedItemEl = dropdownEl?.querySelector(`li:nth-child(${index + 1})`);
@@ -23,21 +23,21 @@ const useAccessibleDropdown = ({showDropdown, handleSelectItem, items}) => {
   };
 
   const handleKeyDown = (e) => {
-    if(!showDropdown) return;
+    if (!showDropdown) return;
 
     if (e.key === KEYS.ENTER) {
-      handleSelectItem(items[focusedOptionIndex].label)
+      handleSelectItem(items[focusedOptionIndex].label);
       return;
     }
 
     const actions = {
-      [KEYS.DOWN] : (prevItem, total) =>  (prevItem + 1) % total,
-      [KEYS.UP] : (prevItem, total) =>  (prevItem - 1) % total,
-    }
+      [KEYS.DOWN]: (prevItem, total) => (prevItem + 1) % total,
+      [KEYS.UP]: (prevItem, total) => (prevItem - 1) % total,
+    };
 
     if (e.key in actions && items.length > 0) {
-      e.preventDefault()
-      setFocusedOptionIndex(prevIndex => {
+      e.preventDefault();
+      setFocusedOptionIndex((prevIndex) => {
         const newFocusedIndex = actions[e.key](prevIndex, items.length);
         scrollToFocusedItem(newFocusedIndex);
         return newFocusedIndex;
@@ -49,15 +49,15 @@ const useAccessibleDropdown = ({showDropdown, handleSelectItem, items}) => {
     // Reset focused option when dropdown is closed
     if (!showDropdown) {
       dropdownContainerRef.current.scrollTop = 0;
-      setFocusedOptionIndex(0)
+      setFocusedOptionIndex(0);
     }
   }, [showDropdown]);
 
   return {
     dropdownContainerRef,
     handleKeyDown,
-    focusedOptionIndex
-  }
-}
+    focusedOptionIndex,
+  };
+};
 
 export default useAccessibleDropdown;

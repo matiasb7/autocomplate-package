@@ -1,22 +1,26 @@
 # AutoComplete React Component
 
 ## Overview
+
 This `AutoComplete` React component enhances user input experience by providing real-time suggestions as the user types. It is minimalist, highly customizable and easy to integrate into your React projects.
 
 ![appImage.png](appImage.png)
 
 ## Features
+
 - 🔄 **Dynamic Filtering**: Filters options based on user input.
 - ✨ **Customizable Styles**: Supports BEM methodology for easy styling.
 - 🔒 **Option Restriction**: Option to restrict input to the provided options.
 - 🔄 **Updatable**: Responds to changes with an `onChange` handler.
 
 ## Installation
+
 ```bash
 npm install autocomplete-react-minimalist
 ```
 
 ## Usage
+
 ```
 import Autocomplete from "autocomplete-react-minimalist";
 
@@ -44,6 +48,7 @@ const MyComponent = () => {
 ```
 
 ## Props
+
 - 🆔 `inputKey` (string): Unique key for the input element.
 - 💬 `placeholder` (string): Placeholder text for the input field.
 - 📋 `listToFilter` (array): Array of objects with `key` and `label` to filter. Inside sample you can find a json example.
@@ -52,6 +57,19 @@ const MyComponent = () => {
 - 🔒 `isRestrictedToOption` (boolean): Restricts input to the provided options.
 - 🔄 `onChange` (function): Callback function for input change.
 
-
 ## Styles
-Use BEM conventions for custom styling. We're working to support tailwind and Typescript.
+
+Use BEM conventions for custom styling. We're working to support tailwind.
+
+| Component          | Class                       |
+| ------------------ | --------------------------- |
+| Input              | autocomplete\_\_input       |
+| List Container     | autocomplete\_\_search      |
+| List Item (option) | autocomplete\_\_search-item |
+
+## Collaborate
+
+Feel free to open an issue or submit a pull request. We're open to suggestions and improvements.
+Before any contribution, please format the code as the project with npm run format.
+
+### If you like the component, please give it a star ⭐️ on [Github](https://github.com/matiasb7/autocomplate-package)
