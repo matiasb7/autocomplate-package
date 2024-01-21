@@ -4,7 +4,7 @@
 
 This `AutoComplete` React component enhances user input experience by providing real-time suggestions as the user types. It is minimalist, highly customizable and easy to integrate into your React projects.
 
-![appImage.png](appImage.png)
+![appImage.png](https://raw.githubusercontent.com/matiasb7/autocomplate-package/main/appImage.png)
 
 ## Features
 
