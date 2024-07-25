@@ -10,13 +10,16 @@ const Autocomplete = ({
   initValue,
   isRestrictedToOption,
   onChange,
+  notFoundMessage,
 }) => {
-  const [value, setValue] = useState(initValue || '');
+  const [inputValue, setInputValue] = useState(initValue || '');
+  const [currentValue, setCurrentValue] = useState(null);
   const [items, setItems] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleSelectItem = (value) => {
-    setValue(value);
+  const handleSelectItem = (label, key) => {
+    setInputValue(label);
+    setCurrentValue({ label, key });
     setShowDropdown(false);
   };
 
@@ -32,27 +35,39 @@ const Autocomplete = ({
     if (isRestrictedToOption) {
       // Check if value is in list, if not, remove it.
       const isValueInList = listToFilter.some(
-        (item) => item.label.toUpperCase() === value.toUpperCase(),
+        (item) => item.label.toUpperCase() === inputValue.toUpperCase(),
       );
-      if (!isValueInList) setValue('');
+      if (!isValueInList) {
+        setInputValue('');
+        if (currentValue) setCurrentValue(null);
+      }
     }
   });
 
   useEffect(() => {
-    if (value && value !== initValue) {
+    console.log('cond: ', inputValue && inputValue !== initValue);
+    if (inputValue && inputValue !== initValue) {
       const filteredList = listToFilter.filter((item) => {
-        return item.label.toLowerCase().includes(value);
+        return item.label.toLowerCase().includes(inputValue);
       });
-      setShowDropdown(filteredList.length > 0);
+
+      if (filteredList.length > 0 && !showDropdown) setShowDropdown(true);
+      if (!notFoundMessage) setShowDropdown(filteredList.length > 0);
       setItems(filteredList);
     } else if (showDropdown) {
       setShowDropdown(false);
     }
 
-    if (onChange) onChange(value);
-  }, [value]);
+    if (!isRestrictedToOption && onChange) {
+      onChange(inputValue, currentValue);
+    }
+  }, [inputValue]);
 
-  const handleOptionClick = (e) => handleSelectItem(e.target.innerText);
+  useEffect(() => {
+    if (isRestrictedToOption && onChange) onChange(currentValue);
+  }, [currentValue]);
+
+  const handleOptionClick = (label, key) => handleSelectItem(label, key);
   const handleFocus = () => {
     if (items.length === 0) setItems(listToFilter);
     setShowDropdown(true);
@@ -71,12 +86,12 @@ const Autocomplete = ({
         onFocus={handleFocus}
         id={inputKey}
         type='text'
-        className={`autocomplete__input ${!value ? '--empty' : ''}`}
+        className={`autocomplete__input ${!inputValue ? '--empty' : ''}`}
         placeholder={placeholder}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => setInputValue(e.target.value)}
         onBlur={() => setShowDropdown(false)}
         aria-expanded={showDropdown}
-        value={value}
+        value={inputValue}
       />
       <div className='autocomplete__container'>
         <ul
@@ -87,7 +102,7 @@ const Autocomplete = ({
             return (
               <li
                 role='option'
-                onMouseDown={handleOptionClick}
+                onMouseDown={() => handleOptionClick(item.label, item.key)}
                 key={item.key}
                 aria-selected={focusedOptionIndex === index}
                 className={`autocomplete__search-item ${index === focusedOptionIndex ? 'focused' : ''}`}
@@ -96,6 +111,9 @@ const Autocomplete = ({
               </li>
             );
           })}
+          {notFoundMessage && items.length === 0 && (
+            <li className='autocomplete__search-item'>{notFoundMessage}</li>
+          )}
         </ul>
       </div>
     </div>

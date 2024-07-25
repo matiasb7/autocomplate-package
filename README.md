@@ -42,6 +42,7 @@ const MyComponent = () => {
       modifierClass=""
       isRestrictedToOption={true}
       onChange={(value) => console.log(value)}
+      notFoundMessage="No results found."
     />
   );
 };
@@ -55,7 +56,8 @@ const MyComponent = () => {
 - 🎨 `modifierClass` (string): Custom CSS class for styling.
 - 🚀 `initValue` (string): Initial value of the input.
 - 🔒 `isRestrictedToOption` (boolean): Restricts input to the provided options.
-- 🔄 `onChange` (function): Callback function for input change.
+- 🔄 `onChange` (function): Callback function for input change. Receives the key and value for the selected option.
+- 🔄 `notFoundMessage` (string): If this is defined, It'll show this message when no options are found instead of closing the dropdown.
 
 ## Styles
 

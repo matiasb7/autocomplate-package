@@ -10,6 +10,7 @@ const MyComponent = () => {
       modifierClass=''
       isRestrictedToOption={true}
       onChange={(value) => console.log(value)}
+      notFoundMessage='No results found.'
     />
   );
 };

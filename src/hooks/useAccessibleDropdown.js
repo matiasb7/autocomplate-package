@@ -26,7 +26,8 @@ const useAccessibleDropdown = ({ showDropdown, handleSelectItem, items }) => {
     if (!showDropdown) return;
 
     if (e.key === KEYS.ENTER) {
-      handleSelectItem(items[focusedOptionIndex].label);
+      const focusedItem = items[focusedOptionIndex];
+      handleSelectItem(focusedItem.label, focusedItem.key);
       return;
     }
 
